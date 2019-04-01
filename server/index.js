@@ -1,73 +1,65 @@
 const hapi = require('hapi');
 const mongoose = require('mongoose');
-const { graphqlHapi, graphiqlHapi } = require('apollo-server-hapi');
-const graphqlShema = require('./graphql/schema');
+const graphqlSchema = require('./graphql/schema');
+const { ApolloServer } = require('apollo-server-hapi');
+const executableSchema = makeExecutableSchema({
+    typeDefs: [graphqlSchema],
+    resolvers: createResolvers(),
+  });
 
+
+const server = new ApolloServer({
+    schema:executableSchema
+  });
+
+  
 // TODO: Добавить автованическое подсасывание моделей как в деке
 const Painting = require('./models/Painting');
 
+// TODO: Добавить подтягивание из .env
+const host = '0.0.0.0';
+const port = 4000;
+
 const server = hapi.server({
-  port: 4000,
-  host: '0.0.0.0'
+  port,
+  host
 });
 
 const init = async () => {
-  await server.register({
-    plugin: graphiqlHapi,
-    options: {
-      path: '/graphiql',
-      graphiqlOptions: {
-        endpointURL: '/graphql'
-      },
-      route: {
-        cors: true
-      }
-    }
-  });
-  await server.register({
-    plugin: graphqlHapi,
-    options: {
-      path: '/graphql',
-      graphiqlOptions: {
-        schema: graphqlShema
-      },
-      route: {
-        cors: true
-      }
-    }
-  });
-
-  server.route([
-    {
-      method: 'GET',
-      path: '/',
-      handler: (req, reply) => {
-        return `<h1>my modern api</h1>`;
-      }
-    },
-    {
-      method: 'GET',
-      path: '/api/v1/paintings',
-      handler: (req, reply) => {
-        return Painting.find();
-      }
-    },
-    {
-      method: 'POST',
-      path: '/api/v1/paintings',
-      handler: (req, reply) => {
-        const { name, url, techniques } = req.payload;
-        const painting = new Painting({
-          name,
-          url,
-          techniques
-        });
-        return painting.save();
-      }
-    }
-  ]);
-
   try {
+
+    server.route([
+      {
+        method: 'GET',
+        path: '/api/v1/paintings',
+        config: {
+          description: 'Get all the paintings',
+          tags: ['api', 'v1', 'painting']
+        },
+        handler: (req, reply) => {
+          return Painting.find();
+        }
+      },
+      {
+        method: 'POST',
+        path: '/api/v1/paintings',
+        config: {
+          description: 'Get a specific painting by ID.',
+          tags: ['api', 'v1', 'painting']
+        },
+        handler: (req, reply) => {
+          const { name, url, technique } = req.payload;
+          const painting = new Painting({
+            name,
+            url,
+            technique
+          });
+
+          return painting.save();
+        }
+      }
+    ]);
+
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
     // Connecting mongoDB
