@@ -1,80 +1,69 @@
-const hapi = require('hapi');
-const mongoose = require('mongoose');
-const graphqlSchema = require('./graphql/schema');
-const { ApolloServer } = require('apollo-server-hapi');
-const executableSchema = makeExecutableSchema({
-    typeDefs: [graphqlSchema],
-    resolvers: createResolvers(),
-  });
+const express = require('express');
+const cors = require('cors');
+const graphqlHTTP = require('express-graphql');
+const gql = require('graphql-tag');
+const { buildASTSchema } = require('graphql');
 
+const POSTS = [
+  { author: 'John Doe', body: 'Hello world' },
+  { author: 'Jane Doe', body: 'Hi, planet!' }
+];
 
-const server = new ApolloServer({
-    schema:executableSchema
-  });
+const schema = buildASTSchema(gql`
+  type Mutation {
+    submitPost(input: PostInput!): Post
+  }
 
-  
-// TODO: Добавить автованическое подсасывание моделей как в деке
-const Painting = require('./models/Painting');
+  input PostInput {
+    id: ID
+    author: String!
+    body: String!
+  }
+  type Query {
+    posts: [Post]
+    post(id: ID!): Post
+  }
 
-// TODO: Добавить подтягивание из .env
-const host = '0.0.0.0';
-const port = 4000;
+  type Post {
+    id: ID
+    author: String
+    body: String
+  }
+`);
 
-const server = hapi.server({
-  port,
-  host
-});
+const mapPost = (post, id) => post && { id, ...post };
 
-const init = async () => {
-  try {
+const root = {
+  posts: () => POSTS.map(mapPost),
+  post: ({ id }) => mapPost(POSTS[id], id),
+  submitPost: ({ input: { id, author, body } }) => {
+    const post = { author, body };
+    let index = POSTS.length;
 
-    server.route([
-      {
-        method: 'GET',
-        path: '/api/v1/paintings',
-        config: {
-          description: 'Get all the paintings',
-          tags: ['api', 'v1', 'painting']
-        },
-        handler: (req, reply) => {
-          return Painting.find();
-        }
-      },
-      {
-        method: 'POST',
-        path: '/api/v1/paintings',
-        config: {
-          description: 'Get a specific painting by ID.',
-          tags: ['api', 'v1', 'painting']
-        },
-        handler: (req, reply) => {
-          const { name, url, technique } = req.payload;
-          const painting = new Painting({
-            name,
-            url,
-            technique
-          });
+    if (id != null && id >= 0 && id < POSTS.length) {
+      if (POSTS[id].authorId !== authorId) return null;
 
-          return painting.save();
-        }
-      }
-    ]);
-
-    await server.start();
-    console.log(`Server running at: ${server.info.uri}`);
-    // Connecting mongoDB
-    try {
-      mongoose.set('debug', true);
-      mongoose.connect('mongodb://mongo/CPAmagnet', { useNewUrlParser: true });
-      mongoose.connection.once('open', () => {
-        console.log('connected to database');
-      });
-    } catch (err) {
-      console.error(err, 'mongoose connect');
+      POSTS.splice(id, 1, post);
+      index = id;
+    } else {
+      POSTS.push(post);
     }
-  } catch (err) {
-    console.error(err, 'server.start');
+
+    return mapPost(post, index);
   }
 };
 
-init();
+const app = express();
+app.use(cors());
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema,
+    rootValue: root,
+    graphiql: true
+  })
+);
+
+const port = process.env.PORT || 4000;
+app.listen(port);
+console.log(`Running a GraphQL API server at localhost:${port}/graphql`);
