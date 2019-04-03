@@ -1,9 +1,26 @@
 import React, { PureComponent } from 'react';
-
 class Footer extends PureComponent {
   render() {
-    return <h1>Footer</h1>;
+    return (
+      <div style={styles.footer}>
+        <h1 style={styles.headerTitle}>Футер</h1>
+      </div>
+    );
   }
 }
 
+const styles = {
+  footer: {
+    backgroundColor: '#1890ff',
+    width: '100%',
+    padding: 10,
+    paddingBottom: 5,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+  },
+  headerTitle:{
+    color: '#fff'
+  }
+};
 export default Footer;
