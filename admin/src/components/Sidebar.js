@@ -1,19 +1,44 @@
-import React, { PureComponent } from 'react';
-import { Menu, Icon } from 'antd';
-const SubMenu = Menu.SubMenu;
+import React, { PureComponent } from "react";
+import { Menu, Icon } from "antd";
 
+import { push } from "connected-react-router";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+
+const mapKeyToNav = {
+  "1": "",
+  "2": "articles",
+  "3": "video",
+  "4": "tests",
+  "5": "categories",
+  "6": "banners",
+  "7": "leads",
+  "8": "regions",
+  "9": "projects",
+  "10": "partners",
+  "11": "letters",
+  "12": "users"
+};
+const SubMenu = Menu.SubMenu;
 class Sidebar extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      sidebarShow: true
+    };
+  }
   handleClick = e => {
-    console.log('click ', e);
+    this.props.changePage(mapKeyToNav[e.key]);
+    console.log("click ", e);
   };
 
   render() {
     return (
       <Menu
         onClick={this.handleClick}
-        style={{ width: 256, height: '100%' }}
-        defaultSelectedKeys={['1']}
-        defaultOpenKeys={['']}
+        style={{ height: "100%", flex: 1 }}
+        defaultSelectedKeys={["1"]}
+        defaultOpenKeys={[""]}
         mode="inline"
       >
         <Menu.Item key="1">
@@ -73,4 +98,15 @@ class Sidebar extends PureComponent {
   }
 }
 
-export default Sidebar;
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      changePage: page => push(`/${page}`)
+    },
+    dispatch
+  );
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Sidebar);
