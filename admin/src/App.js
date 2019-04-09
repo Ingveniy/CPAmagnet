@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Route, Link } from "react-router-dom";
 import { Row } from "antd";
 import Home from "./containers/Home";
-import Articles from "./containers/Articles";
+import ArticlesList from "./containers/ArticlesList";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -15,7 +15,7 @@ class App extends Component {
         <Row style={styles.contentRow} type="flex">
           <Sidebar />
           <Route exact path="/" component={Home} />
-          <Route exact path="/articles" component={Articles} />
+          <Route exact path="/articles" component={ArticlesList} />
         </Row>
         <Footer />
       </div>
