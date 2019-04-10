@@ -16,3 +16,13 @@ services:
       - '4000:4000'
     depends_on:
       - mongo
+  admin:
+    build: ./admin
+    command: ['npm', 'start']
+    volumes:
+      - ./admin:/app
+      - ./admin/node_modules:/app/node_modules
+    ports:
+      - '8080:8080'
+    depends_on:
+      - mongo
