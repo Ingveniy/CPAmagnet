@@ -1,26 +1,26 @@
-import React, { Component } from "react";
-import { Route, Link } from "react-router-dom";
-import { Row } from "antd";
-import Home from "./containers/Home";
-import ArticlesList from "./containers/Articles/ArticlesList";
-import ArticlesDetail from "./containers/Articles/ArticlesDetail";
+import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
+import { Row, Col } from 'antd';
+import Home from './containers/Home';
+import ArticlesList from './containers/Articles/ArticlesList';
+import ArticlesDetail from './containers/Articles/ArticlesDetail';
 
-
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Sidebar from './components/Sidebar';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 class App extends Component {
   render() {
     return (
       <div style={styles.mainContainer}>
         <Header />
-        <Row style={styles.contentRow} type="flex">
+        <Row style={styles.contentRow}>
           <Sidebar />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/articles" component={ArticlesList} />
-          <Route exact path="/articles/:id" component={ArticlesDetail} />
-          
+          <Col xs={28}>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/articles" component={ArticlesList} />
+            <Route exact path="/articles/:id" component={ArticlesDetail} />
+          </Col>
         </Row>
         <Footer />
       </div>
@@ -29,11 +29,7 @@ class App extends Component {
 }
 
 const styles = {
-  contentRow: {
-    height: "90%"
-  },
-  mainContainer: {
-    height: "100%"
-  }
+  mainContainer: {},
+  contentRow: {}
 };
 export default App;

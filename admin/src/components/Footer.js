@@ -15,9 +15,6 @@ const styles = {
     width: '100%',
     padding: 10,
     paddingBottom: 5,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
   },
   headerTitle:{
     color: '#fff'

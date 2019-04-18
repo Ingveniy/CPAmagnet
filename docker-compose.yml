@@ -1,6 +1,6 @@
 version: '3'
 services:
-  mongo:
+  mongo1:
     image: mongo:3.6.2
     ports:
       - '27019:27017'
@@ -15,7 +15,7 @@ services:
     ports:
       - '4000:4000'
     depends_on:
-      - mongo
+      - mongo1
   admin:
     build: ./admin
     command: ['npm', 'start']
@@ -25,4 +25,4 @@ services:
     ports:
       - '8080:8080'
     depends_on:
-      - mongo
+      - mongo1
