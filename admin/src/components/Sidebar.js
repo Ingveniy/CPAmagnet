@@ -57,10 +57,8 @@ class Sidebar extends PureComponent {
           }
         >
           <Menu.Item key="2">Статьи</Menu.Item>
-          <Menu.Item key="3">Видео</Menu.Item>
           <Menu.Item key="4">Опросы</Menu.Item>
-          <Menu.Item key="5">Категории</Menu.Item>
-          <Menu.Item key="6">Баннеры</Menu.Item>
+          <Menu.Item key="5">Темы</Menu.Item>
         </SubMenu>
         <Menu.Item key="7">
           <span>
@@ -99,7 +97,7 @@ class Sidebar extends PureComponent {
 }
 const styles = {
   sidebarMenu: {
-  
+    height: "calc(100vh - 72px)"
   }
 };
 

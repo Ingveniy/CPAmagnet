@@ -5,6 +5,7 @@ class ArticlesList extends PureComponent {
   render() {
     return (
       <div style={styles.content}>
+      ArticlesList
       </div>
     );
   }

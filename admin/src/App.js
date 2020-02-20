@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
-import { Row, Col } from 'antd';
-import Home from './containers/Home';
-import ArticlesList from './containers/Articles/ArticlesList';
-import ArticlesDetail from './containers/Articles/ArticlesDetail';
+import React, { Component } from "react";
+import { Route, Link } from "react-router-dom";
+import { Row, Col } from "antd";
+import Home from "./containers/Home";
+import ArticlesList from "./containers/Articles/ArticlesList";
+import ArticlesDetail from "./containers/Articles/ArticlesDetail";
 
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 class App extends Component {
   render() {
@@ -15,21 +15,28 @@ class App extends Component {
       <div style={styles.mainContainer}>
         <Header />
         <Row style={styles.contentRow}>
-          <Sidebar />
-          <Col xs={28}>
+          <Col xs={2}>
+            <Sidebar />
+          </Col>
+          <Col xs={22}>
             <Route exact path="/" component={Home} />
             <Route exact path="/articles" component={ArticlesList} />
             <Route exact path="/articles/:id" component={ArticlesDetail} />
           </Col>
         </Row>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }
 }
 
 const styles = {
-  mainContainer: {},
-  contentRow: {}
+  mainContainer: {
+    height: '100%'
+
+  },
+  contentRow: {
+    height: '100% '
+  }
 };
 export default App;
