@@ -1,21 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
-import { ConnectedRouter } from "connected-react-router";
-import store, { history } from "./store";
+import configureStore from "./redux";
+
+import moment from "moment";
+import "moment/locale/ru";
+
+import { ApiServiceProvider } from "./components/ApiServiceContext";
+import ApiService from "./service/api";
 import "./index.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import moment from 'moment';
-import 'moment/locale/ru';
-moment.locale('ru');
+import App from "./containers/App";
+
+const apiService = new ApiService();
+const store = configureStore();
+
+moment.locale("ru");
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <App />
-    </ConnectedRouter>
+    <ApiServiceProvider value={apiService}>
+      <Router>
+        <App />
+      </Router>
+    </ApiServiceProvider>
   </Provider>,
-  document.getElementById("root")
+
+  document.getElementById("root"),
 );
-serviceWorker.unregister();
 if (module.hot) module.hot.accept();

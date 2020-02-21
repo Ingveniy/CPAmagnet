@@ -1,19 +1,17 @@
 import React, { PureComponent } from "react";
-class ArticlesList extends PureComponent {
 
-  //Необходимо создать комонент для отображения данных которые прилетают с api, в виде таблицы 
+import { Table } from "antd";
+
+class ArticlesList extends PureComponent {
   render() {
-    return (
-      <div style={styles.content}>
-      ArticlesList
-      </div>
-    );
+    return <div style={styles.content}></div>;
   }
 }
 
 const styles = {
   content: {
-    flex: 6
-  }
+    flex: 6,
+    padding: 20,
+  },
 };
 export default ArticlesList;

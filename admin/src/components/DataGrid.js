@@ -1,26 +1,26 @@
-import React, { PureComponent } from 'react';
-import { zipObject } from 'lodash';
-import { Link } from 'react-router-dom';
-import { Table, Icon, Select, Input, Button, Pagination } from 'antd';
-
+import React, { PureComponent } from "react";
+import { zipObject } from "lodash";
+import { Link } from "react-router-dom";
+import { Table, Icon, Select, Input, Button, Pagination } from "antd";
+import { withRouter } from "react-router-dom";
 const InputGroup = Input.Group;
 const Option = Select.Option;
 
 const placeholderData = [
   {
-    metaTitle: 'Заголовок страницы1',
-    metaKeywords: ['keyword1', 'keyword2', 'keyword3'],
-    metaDescription: 'Мета описание страницы1',
-    content: '<p>Контент1</p>',
-    articlesTitle: 'Заголовок статьи1',
+    metaTitle: "Заголовок страницы1",
+    metaKeywords: ["keyword1", "keyword2", "keyword3"],
+    metaDescription: "Мета описание страницы1",
+    content: "<p>Контент1</p>",
+    articlesTitle: "Заголовок статьи1",
     miniatureImg:
-      'https://avatars.mds.yandex.net/get-pdb/28866/9e621233-36ec-4e34-a372-9829f00a67ed/s375',
+      "https://avatars.mds.yandex.net/get-pdb/28866/9e621233-36ec-4e34-a372-9829f00a67ed/s375",
     showInRSS: true,
-    seoUrlPage: 'article1', // будет формироваться из заголовка статьи
-    publishDate: '2019-04-19T14:38:48.745Z', // Дата отложенной публикации
-    createdAt: '2019-03-19T14:38:48.745Z',
-    updatedAt: '2019-03-19T14:38:48.745Z'
-  }
+    seoUrlPage: "article1", // будет формироваться из заголовка статьи
+    publishDate: "2019-04-19T14:38:48.745Z", // Дата отложенной публикации
+    createdAt: "2019-03-19T14:38:48.745Z",
+    updatedAt: "2019-03-19T14:38:48.745Z",
+  },
 ];
 const maxPageSize = 15;
 class DataGrid extends PureComponent {
@@ -32,11 +32,11 @@ class DataGrid extends PureComponent {
       pagination: {
         current: 1,
         pageSize: maxPageSize,
-        total: 200
+        total: 200,
       },
       filters: {},
       searchText: null,
-      searchType: '_id'
+      searchType: "_id",
     };
   }
 
@@ -58,26 +58,26 @@ class DataGrid extends PureComponent {
     let requestParams = {
       params: {
         query: {
-          ...params.filters
+          ...params.filters,
         },
-        sort: '-createdAt',
+        sort: "-createdAt",
         populate: {
-          path: 'owner',
-          select: 'email store'
+          path: "owner",
+          select: "email store",
         },
         select: zipObject(
-          ['type', 'emails', 'status', 'owner', 'createdAt', 'customersCount'],
-          Array(6).fill(1)
+          ["type", "emails", "status", "owner", "createdAt", "customersCount"],
+          Array(6).fill(1),
         ),
         skip: Number(params.pageSize) * (Number(params.page) - 1),
-        limit: params.pageSize
-      }
+        limit: params.pageSize,
+      },
     };
 
-    console.log(requestParams, 'requestParams');
+    console.log(requestParams, "requestParams");
     this.setState({
       loading: false,
-      data: placeholderData
+      data: placeholderData,
     });
     // TODO: Как будет апи, переделать подтяжку данных
     // api
@@ -97,8 +97,8 @@ class DataGrid extends PureComponent {
       pagination: {
         current: 1,
         pageSize: maxPageSize,
-        total: 30 //await this.getCountCampaigns(),
-      }
+        total: 30, //await this.getCountCampaigns(),
+      },
     });
     await this.getFilteredData();
   };
@@ -109,7 +109,7 @@ class DataGrid extends PureComponent {
   handleTableChange = async (
     pagination = { pageSize: maxPageSize, current: 1 },
     filters,
-    sorter
+    sorter,
   ) => {
     if (filters.type) {
       if (filters.type.length === 0) {
@@ -131,7 +131,7 @@ class DataGrid extends PureComponent {
     this.getFilteredData({
       pageSize: this.state.pagination.pageSize,
       page: this.state.pagination.current,
-      filters
+      filters,
     });
   };
 
@@ -140,71 +140,71 @@ class DataGrid extends PureComponent {
   };
 
   render() {
-    console.log(this.state, 'this.state.campaigns');
+    console.log(this.state, "this.state.campaigns");
 
     return (
       <div>
         <Table
           columns={[
             {
-              title: 'ID',
-              dataIndex: '_id'
+              title: "ID",
+              dataIndex: "_id",
             },
             {
-              title: 'Тип',
-              dataIndex: 'type'
+              title: "Тип",
+              dataIndex: "type",
             },
             {
-              title: 'Адресатов',
-              dataIndex: 'emails',
+              title: "Адресатов",
+              dataIndex: "emails",
               width: 150,
               render: (text, record) =>
-                Number(record.customersCount) || Number(record.emails.length)
+                Number(record.customersCount) || Number(record.emails.length),
             },
             {
-              title: 'Статус',
-              dataIndex: 'status',
+              title: "Статус",
+              dataIndex: "status",
               onFilter: (value, record) => record.status.includes(value),
               filters: [
-                { text: 'New', value: 'new' },
-                { text: 'Rejected', value: 'rejected' },
-                { text: 'Edited', value: 'edited' },
-                { text: 'Verified', value: 'verified' },
-                { text: 'Processing', value: 'processing' },
-                { text: 'Failed', value: 'failed' },
-                { text: 'Complete', value: 'complete' }
-              ]
+                { text: "New", value: "new" },
+                { text: "Rejected", value: "rejected" },
+                { text: "Edited", value: "edited" },
+                { text: "Verified", value: "verified" },
+                { text: "Processing", value: "processing" },
+                { text: "Failed", value: "failed" },
+                { text: "Complete", value: "complete" },
+              ],
             },
             {
-              title: 'Создатель',
-              dataIndex: 'owner.email',
+              title: "Создатель",
+              dataIndex: "owner.email",
               render: (text, record) =>
-                record.owner ? record.owner.email : 'Не указан'
+                record.owner ? record.owner.email : "Не указан",
             },
             {
-              title: 'Магазин',
-              dataIndex: 'owner.store'
+              title: "Магазин",
+              dataIndex: "owner.store",
             },
             {
-              title: 'Дата создания',
-              dataIndex: 'createdAt'
+              title: "Дата создания",
+              dataIndex: "createdAt",
             },
             {
-              title: 'Действие',
-              key: 'operation',
+              title: "Действие",
+              key: "operation",
               render: (text, record) => (
                 <div>
                   <Link
-                    className="table-action"
+                    className='table-action'
                     to={`${this.props.location.pathname}/${record._id}`}
                   >
-                    <Icon type="edit" title="Подробнее" />
+                    <Icon type='edit' title='Подробнее' />
                   </Link>
                 </div>
-              )
-            }
+              ),
+            },
           ]}
-          rowKey="_id"
+          rowKey='_id'
           dataSource={this.state.campaigns}
           loading={this.state.loading}
           onChange={this.handleTableChange}
@@ -221,7 +221,7 @@ class DataGrid extends PureComponent {
               this.handleTableChange(
                 { current: page, pageSize },
                 this.state.filters,
-                {}
+                {},
               );
             }}
             total={this.state.pagination.total}
@@ -234,4 +234,4 @@ class DataGrid extends PureComponent {
   }
 }
 
-export default DataGrid;
+export default withRouter(DataGrid);

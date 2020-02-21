@@ -1,40 +1,40 @@
-import fs from 'fs';
-import path from 'path';
-import cors from 'cors';
-import yargs from 'yargs';
-import express from 'express';
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-import methodOverride from 'method-override';
-import promise from 'bluebird';
-import jwt from 'express-jwt';
-import config from 'config';
+import fs from "fs";
+import path from "path";
+import cors from "cors";
+import yargs from "yargs";
+import express from "express";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
+import promise from "bluebird";
+import jwt from "express-jwt";
+import config from "config";
 
 const argv = yargs
-  .default('port', config.get('server.port'))
-  .default('host', config.get('server.host'))
-  .alias('p', 'port')
-  .alias('h', 'host').argv;
+  .default("port", config.get("server.port"))
+  .default("host", config.get("server.host"))
+  .alias("p", "port")
+  .alias("h", "host").argv;
 
-const db = require('./models')();
+const db = require("./models")();
 
 const app = express();
 
 app.use(
   cors({
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
     optionsSuccessStatus: 204,
-    credentials: true
-  })
+    credentials: true,
+  }),
 );
-app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.json({ limit: "100mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(methodOverride("X-HTTP-Method-Override"));
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 // app.use(require('./jwtMiddleware')());
 // app.use(
 //   jwt({
@@ -44,7 +44,7 @@ app.use(express.static('public'));
 //   }).unless({ path: ['/api/v1/login'] })
 // );
 
-require('./resources')(app, db);
+require("./resources")(app, db);
 
 app.use(function errorHandler(err, req, res, next) {
   if (res.headersSent) {
@@ -52,15 +52,15 @@ app.use(function errorHandler(err, req, res, next) {
   }
 
   console.error(err);
-  res.status(500).json({ message: 'Unexpected error occurred' });
+  res.status(500).json({ message: "Unexpected error occurred" });
 });
 
-process.on('uncaughtException', err => {
+process.on("uncaughtException", err => {
   console.error(err);
 });
 
 app.listen(argv.port, argv.host, () => {
   console.log(
-    `${config.get('env')} server started at ${argv.host}: ${argv.port}`
+    `${config.get("env")} server started at ${argv.host}: ${argv.port}`,
   );
 });

@@ -1,9 +1,9 @@
-import { map } from 'lodash';
-import config from 'config';
-import fs from 'fs';
+import { map } from "lodash";
+import config from "config";
+import fs from "fs";
 
 module.exports = ({ router, rest, db }) => {
-  router.get('/api/v1/articlesCount', async (req, res, next) => {
+  router.get("/api/v1/articlesCount", async (req, res, next) => {
     try {
       let oldQuery = JSON.parse(req.query.query);
       let query = {};
@@ -21,7 +21,20 @@ module.exports = ({ router, rest, db }) => {
   });
 
   return rest.serve(router, db.Article, {
+    preRead: (req, res, next) => {
+      next();
+    },
     postRead: (req, res, next) => {
+      next();
+    },
+    preCreate: (req, res, next) => {
+      console.log(req, "req preCreate");
+
+      next();
+    },
+    postCreate: (req, res, next) => {
+      console.log(req, "req postCreate");
+
       next();
     },
     preUpdate: (req, res, next) => {
@@ -30,6 +43,13 @@ module.exports = ({ router, rest, db }) => {
     postUpdate: (req, res, next) => {
       next();
     },
-    name: 'articles'
+    preDelete: (req, res, next) => {
+      next();
+    },
+    postDelete: (req, res, next) => {
+      next();
+    },
+
+    name: "articles",
   });
 };

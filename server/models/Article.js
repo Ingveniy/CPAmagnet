@@ -1,52 +1,55 @@
-import { Schema } from 'mongoose';
-const autoIncrement = require('mongoose-auto-increment');
+import { Schema } from "mongoose";
+const autoIncrement = require("mongoose-auto-increment");
 module.exports = function(db) {
   const schema = new Schema(
     {
       metaTitle: {
         type: String,
-        default: 'Заголовок страницы1'
+        default: "",
       },
       metaKeywords: {
         type: Array,
-        default: ['keyword1', 'keyword2', 'keyword3']
+        default: [],
       },
       metaDescription: {
         type: String,
-        default: 'Мета описание страницы1'
-      },
-      articlesTitle: {
-        type: String,
-        default: 'Заголовок статьи1'
+        default: "",
       },
       content: {
         type: String,
-        default: '<p>Контент1</p>'
+        default: "",
       },
-      miniatureImg: {
+      title: {
         type: String,
-        default:
-          'https://avatars.mds.yandex.net/get-pdb/28866/9e621233-36ec-4e34-a372-9829f00a67ed/s375'
+        default: "",
+      },
+      previewImage: {
+        type: String,
+        default: "",
       },
       showInRSS: {
         type: Boolean,
-        default: true
+        default: false,
       },
-      seoUrlPage: {
+      seoUrl: {
         type: String,
-        default: 'article1'
+        default: "",
+      },
+      sendNotification: {
+        type: Boolean,
+        default: false,
       },
       publishDate: {
         type: Date,
-        default: '2019-04-19T14:38:48.745Z'
-      }
+        default: Date.now(),
+      },
     },
-    { id: false, strict: false, timestamps: true }
+    { id: false, strict: false, timestamps: true },
   );
   schema.plugin(autoIncrement.plugin, {
-    model: 'Article',
-    id: 'id',
-    startAt: 1
+    model: "Article",
+    id: "id",
+    startAt: 1,
   });
-  return db.model('Article', schema);
+  return db.model("Article", schema);
 };
