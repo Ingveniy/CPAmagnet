@@ -6,6 +6,7 @@ import {
 
 const initialState = {
   articles: [],
+  totalArticles: 0,
   loading: false,
   errors: null,
 };
@@ -18,6 +19,7 @@ const articles = (state = initialState, action) => {
         loading: true,
         errors: null,
         articles: [],
+        totalArticles: 0,
       };
 
     case FETCH_ARTICLES_FAILURE:
@@ -31,7 +33,8 @@ const articles = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        articles: action.payload,
+        articles: action.payload.articles,
+        totalArticles: action.payload.totalArticles,
       };
 
     default:

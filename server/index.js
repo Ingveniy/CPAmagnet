@@ -27,12 +27,12 @@ app.use(
     preflightContinue: false,
     optionsSuccessStatus: 204,
     credentials: true,
+    exposedHeaders: "x-total-count",
   }),
 );
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(methodOverride("X-HTTP-Method-Override"));
 
 app.use(express.static("public"));
 // app.use(require('./jwtMiddleware')());
