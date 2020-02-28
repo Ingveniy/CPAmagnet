@@ -15,10 +15,10 @@ class App extends Component {
       <div style={styles.mainContainer}>
         <Header />
         <Row style={styles.contentRow}>
-          <Col xs={2}>
+          <Col md={6} lg={4}>
             <Sidebar />
           </Col>
-          <Col xs={22}>
+          <Col md={18} lg={20}>
             <Switch>
               <Route exact path='/' component={Home} />
               <Route exact path='/articles' component={ArticlesList} />

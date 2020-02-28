@@ -8,8 +8,8 @@ module.exports = function(db) {
         default: "",
       },
       metaKeywords: {
-        type: Array,
-        default: [],
+        type: String,
+        default: "",
       },
       metaDescription: {
         type: String,
@@ -42,6 +42,10 @@ module.exports = function(db) {
       publishDate: {
         type: Date,
         default: Date.now(),
+      },
+      category: {
+        type: Number,
+        ref: "ArticleCategory",
       },
     },
     { id: false, strict: false, timestamps: true },

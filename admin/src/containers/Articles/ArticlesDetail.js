@@ -15,6 +15,7 @@ class ArticlesList extends PureComponent {
       metaDescription: "Это описание статьи",
       content: "<p>Контент1</p>",
       title: "Статья 1",
+      category: 1,
       rssStatus: false,
       seoUrl: "statya1",
       sendNotification: false,

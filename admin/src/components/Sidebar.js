@@ -58,7 +58,7 @@ class Sidebar extends PureComponent {
         >
           <Menu.Item key='2'>Статьи</Menu.Item>
           <Menu.Item key='4'>Опросы</Menu.Item>
-          <Menu.Item key='5'>Темы</Menu.Item>
+          <Menu.Item key='5'>Категории статей</Menu.Item>
         </SubMenu>
         <Menu.Item key='7'>
           <span>

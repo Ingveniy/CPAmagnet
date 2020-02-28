@@ -1,5 +1,4 @@
-
-@import '~antd/dist/antd.css';
+@import "~antd/dist/antd.css";
 
 .App {
   text-align: center;
@@ -19,6 +18,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-#root{
+#root {
   min-height: 100%;
+}
+
+#root .ant-table-pagination.ant-pagination {
+  margin-right: 15px;
+  margin-left: 15px;
 }

@@ -3,7 +3,7 @@ import axios from "axios";
 export default class API {
   constructor(props) {
     this.api = axios.create({
-      baseURL: "http://192.168.30.75:4000/api/v1",
+      baseURL: "http://127.0.0.1:4000/api/v1",
       responseType: "json",
     });
 
@@ -17,7 +17,40 @@ export default class API {
 
   // Articles
   getArticles = async filter => {
-    return await this.api.get("/articles");
+    let formattedFilter = {
+      query: {
+        title: filter.title ? `$regex":"^(${filter.title})` : null,
+      },
+      limit: filter.limit || 0,
+      populate: "category",
+    };
+
+    return await this.api.get("/articles", {
+      params: { ...formattedFilter },
+    });
   };
   // Article
+  getArticle = async id => {
+    return await this.api.get(`/articles/${id}`);
+  };
+
+  createArticle = async articleData => {
+    return await this.api.post(`/articles`, {
+      body: {
+        ...articleData,
+      },
+    });
+  };
+
+  updateArticle = async (id, articleData) => {
+    return await this.api.patch(`/articles/${id}`, {
+      body: {
+        ...articleData,
+      },
+    });
+  };
+
+  removeArticle = async id => {
+    return await this.api.delete(`/articles/${id}`);
+  };
 }
